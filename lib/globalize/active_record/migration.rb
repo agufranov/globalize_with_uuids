@@ -67,8 +67,8 @@ module Globalize
         end
 
         def create_translation_table
-          connection.create_table(translations_table_name) do |t|
-            t.references table_name.sub(/^#{table_name_prefix}/, '').singularize, :null => false
+          connection.create_table(translations_table_name, :id => :uuid, :default => 'uuid_generate_v4()') do |t|
+            t.uuid table_name.sub(/^#{table_name_prefix}/, '').singularize + '_id', :null => false
             t.string :locale, :null => false
             t.timestamps
           end
